@@ -122,6 +122,25 @@ namespace Sign.Core.Test
             }
         }
 
+        [Fact]
+        public async Task SignAsync_WhenFileIsApp_Signs()
+        {
+            using (TemporaryDirectory temporaryDirectory = new(new DirectoryService(Mock.Of<ILogger<IDirectoryService>>())))
+            {
+                FileInfo file = GetTestAsset(temporaryDirectory, "test.app");
+                //FileInfo file = GetTestAsset(temporaryDirectory, "test.ps1");
+                FileInfo outputFile = new(Path.Combine("C:\\Users\\aholstrup\\Documents\\Github\\aholstrup\\sign\\Build\\SignedExampleApp", "Microsoft_Email - SMTP API_24.0.13923.5020.app"));
+                //FileInfo outputFile = new(Path.Combine(temporaryDirectory.Directory.FullName, "signed.app"));
+                //FileInfo outputFile = new(Path.Combine(temporaryDirectory.Directory.FullName, "signed1.ps1"));
+
+                //await SignAsync(temporaryDirectory, file, outputFile);
+
+                Console.WriteLine("Testing outputfile {0}", outputFile.ToString());
+
+                await VerifyAuthenticodeSignedFileAsync(outputFile);
+            }
+        }
+
         private async Task SignAsync(TemporaryDirectory temporaryDirectory, FileInfo file, FileInfo outputFile)
         {
             ServiceProvider serviceProvider = Create();
