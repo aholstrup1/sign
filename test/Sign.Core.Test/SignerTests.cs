@@ -125,7 +125,7 @@ namespace Sign.Core.Test
         [Fact]
         public async Task SignAsync_WhenFileIsApp_Signs()
         {
-            RegisterSipsFromIniFile(); // TODO: SignAsync fails unless this is here
+            //RegisterSipsFromIniFile(); // TODO: SignAsync fails unless this is here
 
             using (TemporaryDirectory temporaryDirectory = new(new DirectoryService(Mock.Of<ILogger<IDirectoryService>>())))
             {
