@@ -125,17 +125,13 @@ namespace Sign.Core.Test
         [Fact]
         public async Task SignAsync_WhenFileIsApp_Signs()
         {
+            RegisterSipsFromIniFile();
             using (TemporaryDirectory temporaryDirectory = new(new DirectoryService(Mock.Of<ILogger<IDirectoryService>>())))
             {
-                FileInfo file = GetTestAsset(temporaryDirectory, "test.app");
-                //FileInfo file = GetTestAsset(temporaryDirectory, "test.ps1");
-                FileInfo outputFile = new(Path.Combine("C:\\Users\\aholstrup\\Documents\\Github\\aholstrup\\sign\\Build\\SignedExampleApp", "Microsoft_Email - SMTP API_24.0.13923.5020.app"));
-                //FileInfo outputFile = new(Path.Combine(temporaryDirectory.Directory.FullName, "signed.app"));
-                //FileInfo outputFile = new(Path.Combine(temporaryDirectory.Directory.FullName, "signed1.ps1"));
-
-                //await SignAsync(temporaryDirectory, file, outputFile);
-
-                Console.WriteLine("Testing outputfile {0}", outputFile.ToString());
+                FileInfo file = GetTestAsset(temporaryDirectory, "EmptyExtension.app");
+                FileInfo outputFile = new(Path.Combine(temporaryDirectory.Directory.FullName, "signed.app"));
+                
+                await SignAsync(temporaryDirectory, file, outputFile);
 
                 await VerifyAuthenticodeSignedFileAsync(outputFile);
             }
@@ -457,6 +453,15 @@ namespace Sign.Core.Test
             services.AddSingleton<ISigner, Signer>();
 
             return new ServiceProvider(services.BuildServiceProvider());
+        }
+
+        private void RegisterSipsFromIniFile()
+        {
+            AppRootDirectoryLocator locator = new();
+            DirectoryInfo appRootDirectory = locator.Directory;
+            string baseDirectory = Path.Combine(appRootDirectory.FullName, "tools", "SDK", "x64");
+            Kernel32.SetDllDirectoryW(baseDirectory);
+            Kernel32.LoadLibraryW($@"{baseDirectory}\wintrust.dll");
         }
     }
 }
