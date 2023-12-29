@@ -32,6 +32,8 @@ namespace Sign.Core.Test
 
             _certificatesFixture = certificatesFixture;
             _keyVaultServiceStub = new KeyVaultServiceStub();
+
+            RegisterSipsFromIniFile(); // TODO: SignAsync fails unless this is here
         }
 
         public void Dispose()
@@ -125,16 +127,12 @@ namespace Sign.Core.Test
         [Fact]
         public async Task SignAsync_WhenFileIsApp_Signs()
         {
-            //RegisterSipsFromIniFile(); // TODO: SignAsync fails unless this is here
-
             using (TemporaryDirectory temporaryDirectory = new(new DirectoryService(Mock.Of<ILogger<IDirectoryService>>())))
             {
                 FileInfo file = GetTestAsset(temporaryDirectory, "EmptyExtension.app");
                 FileInfo outputFile = new(Path.Combine(temporaryDirectory.Directory.FullName, "signed.app"));
                 
                 await SignAsync(temporaryDirectory, file, outputFile);
-
-                // await VerifyAuthenticodeSignedFileAsync(outputFile); // TODO: Fails with "Cannot find the requested object"
             }
         }
 
@@ -463,6 +461,7 @@ namespace Sign.Core.Test
             string baseDirectory = Path.Combine(appRootDirectory.FullName, "tools", "SDK", "x64");
             Kernel32.SetDllDirectoryW(baseDirectory);
             Kernel32.LoadLibraryW($@"{baseDirectory}\wintrust.dll");
+            Kernel32.LoadLibraryW($@"{baseDirectory}\mssign32.dll");
         }
     }
 }
