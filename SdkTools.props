@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <NetSdkBinDir Condition=" '$(NetSdkBinDir)' == '' ">$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools</NetSdkBinDir>
-    <NavSipPackageDll>$(NuGetPackageRoot)aholstrup.Sign.Package\1.0.0\NavSip.dll</NavSipPackageDll>
+    <NavSipPackageDll>$(NuGetPackageRoot)aholstrup.BusinessCentral.Sip.Main\*\x64\NavSip.dll</NavSipPackageDll>
   </PropertyGroup>
 
   <ItemGroup>
