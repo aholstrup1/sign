@@ -30,6 +30,6 @@
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="7.0.3" />
     <PackageVersion Include="System.Security.Cryptography.Xml" Version="7.0.1" />
     <PackageVersion Include="System.Text.Json" Version="7.0.3" />
-    <PackageVersion Include="aholstrup.BusinessCentral.Sip.Main" Version="24.0.15422" /> <!-- TODO: Publish Microsoft-owned package instead-->
+    <PackageVersion Include="Microsoft.BusinessCentral.Sip.Main" Version="24.0.15422" /> <!-- TODO: Publish Microsoft-owned package instead-->
   </ItemGroup>
 </Project>
