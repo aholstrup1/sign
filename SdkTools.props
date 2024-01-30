@@ -2,11 +2,11 @@
 <Project>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" IncludeAssets="build" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Dynamics.BusinessCentral.Sip.Main" GeneratePathProperty="true" ExcludeAssets="All" />
   </ItemGroup>
 
   <PropertyGroup>
     <NetSdkBinDir Condition=" '$(NetSdkBinDir)' == '' ">$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools</NetSdkBinDir>
-    <NavSipPackageDir Condition=" '$(NavSipPackageDll)' == '' ">$(NuGetPackageRoot)\Microsoft.Dynamics.BusinessCentral.Sip.Main\24.0.15760</NavSipPackageDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
     <SdkFile64 Include="$(WindowsSDKBuildToolsBinVersionedFolder)\x64\wintrust.dll" />
     <SdkFile64 Include="$(WindowsSDKBuildToolsBinVersionedFolder)\x64\wintrust.dll.ini" />
     <SdkFile64 Include="$(WindowsSDKBuildToolsBinVersionedFolder)\x64\SignTool.exe.manifest" />
-    <SdkFile64 Include="$(NavSipPackageDir)\x64\NavSip.dll" />
+    <SdkFile64 Include="$(PkgMicrosoft_Dynamics_BusinessCentral_Sip_Main)\x64\NavSip.dll" />
 
     <SdkFile86 Include="$(NetSdkBinDir)\mage.exe" />
   </ItemGroup>
