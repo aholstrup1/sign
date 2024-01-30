@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <NetSdkBinDir Condition=" '$(NetSdkBinDir)' == '' ">$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools</NetSdkBinDir>
-    <NavSipPackageDll>$(NuGetPackageRoot)Microsoft.BusinessCentral.Sip.Main\*\x64\NavSip.dll</NavSipPackageDll>
+    <NavSipPackageDir Condition=" '$(NavSipPackageDll)' == '' ">$(NuGetPackageRoot)\Microsoft.Dynamics.BusinessCentral.Sip.Main\24.0.15760</NavSipPackageDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
     <SdkFile64 Include="$(WindowsSDKBuildToolsBinVersionedFolder)\x64\wintrust.dll" />
     <SdkFile64 Include="$(WindowsSDKBuildToolsBinVersionedFolder)\x64\wintrust.dll.ini" />
     <SdkFile64 Include="$(WindowsSDKBuildToolsBinVersionedFolder)\x64\SignTool.exe.manifest" />
-    <SdkFile64 Include="$(NavSipPackageDll)" />
+    <SdkFile64 Include="$(NavSipPackageDir)\x64\NavSip.dll" />
 
     <SdkFile86 Include="$(NetSdkBinDir)\mage.exe" />
   </ItemGroup>
@@ -34,18 +34,13 @@
     <Copy SourceFiles="@(SdkFile86)" DestinationFolder="$(OutputPath)\tools\SDK\x86" SkipUnchangedFiles="true" />
   </Target>
 
-  <Target Name="UpdateWintrust" AfterTargets="Build">
-    <PropertyGroup>
-      <PowerShellFilePath Condition=" '$(PowerShellFilePath)' == '' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellFilePath>
-      <ScriptFilePath Condition=" '$(ScriptFilePath)' == '' ">$(RepositoryRootDirectory)\scripts\UpdateWintrust.ps1</ScriptFilePath>
-    </PropertyGroup>
-
-    <Exec Command="$(PowerShellFilePath) -NonInteractive -ExecutionPolicy Unrestricted -Command &quot;&amp; { &amp;'$(ScriptFilePath)' '$(OutputPath)\tools\SDK\x64\wintrust.dll.ini' } &quot;" LogStandardErrorAsError="true" />
-  </Target>
-
-
   <ItemGroup>
-    <Content Include="@(SdkFile64)">
+    <Content Include="@(SdkFile64)" Exclude="$(WindowsSDKBuildToolsBinVersionedFolder)\x64\wintrust.dll.ini">
+      <Pack>true</Pack>
+      <PackagePath>tools\$(TargetFramework)\any\tools\SDK\x64</PackagePath>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="$(OutputPath)\tools\SDK\x64\wintrust.dll.ini">
       <Pack>true</Pack>
       <PackagePath>tools\$(TargetFramework)\any\tools\SDK\x64</PackagePath>
       <Visible>false</Visible>

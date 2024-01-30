@@ -2,11 +2,16 @@ param(
     [string] $WintrustIniPath
 )
 
+# Test if the Wintrust.ini file exists
+if (!(Test-Path $WintrustIniPath -PathType Leaf)) {
+    exit 1
+}
 
-$wintrustini = Get-Content $WintrustIniPath
+$wintrustini = Get-Content $WintrustIniPath -Raw
 
 # Update the Wintrust.ini file to include the NavSIP.dll
 $navSipIni = @'
+
 
 [5]
 DLL=NavSip.dll
@@ -19,5 +24,8 @@ CryptSIPDllRemoveSignedDataMsg=NavSIPRemoveSignedDataMsg
 CryptSIPDllVerifyIndirectData=NavSIPVerifyIndirectData
 '@
 
-$wintrustini += $navSipIni
-Set-Content -Path $WintrustIniPath -Value $wintrustini
+if ($wintrustini -notmatch 'NavSip.dll') {
+    Write-Host "Adding NavSip.dll to Wintrust.ini - $WintrustIniPath"
+    $wintrustini += $navSipIni
+    Set-Content -Path $WintrustIniPath -Value $wintrustini
+}
