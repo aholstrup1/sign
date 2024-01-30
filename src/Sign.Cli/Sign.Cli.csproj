@@ -31,15 +31,6 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <Target Name="UpdateWintrust" AfterTargets="Build">
-    <PropertyGroup>
-      <PowerShellFilePath Condition=" '$(PowerShellFilePath)' == '' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellFilePath>  
-      <ScriptFilePath Condition=" '$(ScriptFilePath)' == '' ">$(RepositoryRootDirectory)\scripts\UpdateWintrust.ps1</ScriptFilePath>
-    </PropertyGroup>
-
-    <Exec Command="$(PowerShellFilePath) -NonInteractive -ExecutionPolicy Unrestricted -Command &quot;&amp; { &amp;'$(ScriptFilePath)' '$(OutputPath)\tools\SDK\x64\wintrust.dll.ini' } &quot;" LogStandardErrorAsError="true" />
-  </Target>
-
   <Target Name="VerifyNuGetPackage" AfterTargets="Pack">
     <PropertyGroup>
       <PowerShellFilePath Condition=" '$(PowerShellFilePath)' == '' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellFilePath>
