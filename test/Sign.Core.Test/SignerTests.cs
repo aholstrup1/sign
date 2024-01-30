@@ -33,7 +33,7 @@ namespace Sign.Core.Test
             _certificatesFixture = certificatesFixture;
             _keyVaultServiceStub = new KeyVaultServiceStub();
 
-            RegisterSipsFromIniFile(); // TODO: SignAsync fails unless this is here
+            RegisterSipsFromIniFile(); // Register SIPS from INI file to avoid relying SIPs being registered prior to running tests.
         }
 
         public void Dispose()
